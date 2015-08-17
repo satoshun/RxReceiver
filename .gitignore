@@ -1,0 +1,15 @@
+# Android
+local.properties
+/captures
+
+# IntelliJ
+*.iml
+.idea/
+
+# OS X
+.DS_Store
+
+# Maven
+pom.xml.*
+release.properties
+target
