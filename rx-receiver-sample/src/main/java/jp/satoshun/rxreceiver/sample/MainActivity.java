@@ -1,6 +1,9 @@
 package jp.satoshun.rxreceiver.sample;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -8,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,18 +22,20 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import jp.satoshun.rxreceiver.RxReceiver;
+import rx.Observable;
+import rx.Subscription;
+import rx.functions.Action1;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
-    private NavigationDrawerFragment mNavigationDrawerFragment;
+    private final static String TAG = "MainActivity";
 
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
+    private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
+
+    private Subscription receiverSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +50,34 @@ public class MainActivity extends AppCompatActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        receiverSubscription = RxReceiver.registerReceiver(this, new IntentFilter("hogehoge"))
+                .subscribe(new Action1<Intent>() {
+                    @Override
+                    public void call(Intent intent) {
+                        Log.d(TAG, "hogehoge action");
+                    }
+                });
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                MainActivity.this.sendBroadcast(new Intent("hogehoge"));
+            }
+        }, 3000);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        receiverSubscription.unsubscribe();
+        receiverSubscription = null;
     }
 
     @Override
