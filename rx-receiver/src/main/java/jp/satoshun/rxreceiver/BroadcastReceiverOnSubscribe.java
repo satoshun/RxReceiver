@@ -9,12 +9,12 @@ import android.content.IntentFilter;
 import rx.Observable;
 import rx.Subscriber;
 
-class ReceiverEventOnSubscribe implements Observable.OnSubscribe<Intent> {
+class BroadcastReceiverOnSubscribe implements Observable.OnSubscribe<Intent> {
 
     private final Context context;
     private final IntentFilter filter;
 
-    public ReceiverEventOnSubscribe(Context context, IntentFilter filter) {
+    public BroadcastReceiverOnSubscribe(Context context, IntentFilter filter) {
         this.context = context;
         this.filter = filter;
     }

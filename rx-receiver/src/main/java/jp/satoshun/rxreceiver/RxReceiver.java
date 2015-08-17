@@ -11,12 +11,24 @@ import rx.Observable;
 public class RxReceiver {
 
     @CheckResult
-    public static Observable<Intent> registerReceiver(Context context, String action) {
-        return registerReceiver(context, new IntentFilter(action));
+    public static Observable<Intent> registerBroadcastReceiver(Context context, String action) {
+        return registerBroadcastReceiver(context, new IntentFilter(action));
     }
 
     @CheckResult
-    public static Observable<Intent> registerReceiver(Context context, IntentFilter filter) {
-        return Observable.create(new ReceiverEventOnSubscribe(context.getApplicationContext(), filter));
+    public static Observable<Intent> registerBroadcastReceiver(Context context, IntentFilter filter) {
+        return Observable.create(
+                new BroadcastReceiverOnSubscribe(context.getApplicationContext(), filter));
+    }
+
+    @CheckResult
+    public static Observable<Intent> registerLocalBroadcastReceiver(Context context, String action) {
+        return registerLocalBroadcastReceiver(context, new IntentFilter(action));
+    }
+
+    @CheckResult
+    public static Observable<Intent> registerLocalBroadcastReceiver(Context context, IntentFilter filter) {
+        return Observable.create(
+                new LocalBroadcastReceiverOnSubscribe(context.getApplicationContext(), filter));
     }
 }

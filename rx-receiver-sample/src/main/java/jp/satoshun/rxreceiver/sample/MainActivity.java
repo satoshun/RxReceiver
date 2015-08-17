@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity
     private CharSequence mTitle;
 
     private Subscription receiverSubscription;
+    private Subscription localReceiverSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,8 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
 
-        receiverSubscription = RxReceiver.registerReceiver(this, new IntentFilter("hogehoge"))
+        // Broadcast receiver sample
+        receiverSubscription = RxReceiver.registerBroadcastReceiver(this, new IntentFilter("hogehoge"))
                 .subscribe(new Action1<Intent>() {
                     @Override
                     public void call(Intent intent) {
@@ -70,6 +73,23 @@ public class MainActivity extends AppCompatActivity
                 MainActivity.this.sendBroadcast(new Intent("hogehoge"));
             }
         }, 3000);
+
+        // Local Broadcast receiver sample
+        localReceiverSubscription = RxReceiver.registerLocalBroadcastReceiver(this, new IntentFilter("hogehoge"))
+            .subscribe(new Action1<Intent>() {
+                @Override
+                public void call(Intent intent) {
+                    Log.d(TAG, "hogehoge local action");
+                }
+            });
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                LocalBroadcastManager.getInstance(MainActivity.this)
+                        .sendBroadcast(new Intent("hogehoge"));
+            }
+        }, 1000);
     }
 
     @Override
@@ -78,6 +98,9 @@ public class MainActivity extends AppCompatActivity
 
         receiverSubscription.unsubscribe();
         receiverSubscription = null;
+
+        localReceiverSubscription.unsubscribe();
+        localReceiverSubscription = null;
     }
 
     @Override
