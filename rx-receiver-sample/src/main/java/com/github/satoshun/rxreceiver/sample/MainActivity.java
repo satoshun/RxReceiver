@@ -1,30 +1,23 @@
-package jp.satoshun.rxreceiver.sample;
+package com.github.satoshun.rxreceiver.sample;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
-import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
-import jp.satoshun.rxreceiver.RxReceiver;
-import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action1;
 
@@ -59,7 +52,7 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
 
         // Broadcast receiver sample
-        receiverSubscription = RxReceiver.registerBroadcastReceiver(this, new IntentFilter("hogehoge"))
+        receiverSubscription = com.github.satoshun.rxreceiver.RxReceiver.registerBroadcastReceiver(this, new IntentFilter("hogehoge"))
                 .subscribe(new Action1<Intent>() {
                     @Override
                     public void call(Intent intent) {
@@ -75,7 +68,7 @@ public class MainActivity extends AppCompatActivity
         }, 3000);
 
         // Local Broadcast receiver sample
-        localReceiverSubscription = RxReceiver.registerLocalBroadcastReceiver(this, new IntentFilter("hogehoge"))
+        localReceiverSubscription = com.github.satoshun.rxreceiver.RxReceiver.registerLocalBroadcastReceiver(this, new IntentFilter("hogehoge"))
             .subscribe(new Action1<Intent>() {
                 @Override
                 public void call(Intent intent) {

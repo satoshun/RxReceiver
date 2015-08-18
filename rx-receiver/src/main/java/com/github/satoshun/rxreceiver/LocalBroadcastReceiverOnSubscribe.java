@@ -1,20 +1,23 @@
-package jp.satoshun.rxreceiver;
+package com.github.satoshun.rxreceiver;
 
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
+
+import com.github.satoshun.rxreceiver.MainHandlerSubscription;
 
 import rx.Observable;
 import rx.Subscriber;
 
-class BroadcastReceiverOnSubscribe implements Observable.OnSubscribe<Intent> {
+class LocalBroadcastReceiverOnSubscribe implements Observable.OnSubscribe<Intent> {
 
     private final Context context;
     private final IntentFilter filter;
 
-    public BroadcastReceiverOnSubscribe(Context context, IntentFilter filter) {
+    public LocalBroadcastReceiverOnSubscribe(Context context, IntentFilter filter) {
         this.context = context;
         this.filter = filter;
     }
@@ -28,11 +31,13 @@ class BroadcastReceiverOnSubscribe implements Observable.OnSubscribe<Intent> {
             }
         };
 
-        context.registerReceiver(receiver, filter);
+        LocalBroadcastManager.getInstance(context)
+                .registerReceiver(receiver, filter);
         subscriber.add(new MainHandlerSubscription() {
             @Override
             public void run() {
-                context.unregisterReceiver(receiver);
+                LocalBroadcastManager.getInstance(context)
+                        .unregisterReceiver(receiver);
             }
         });
     }

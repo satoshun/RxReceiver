@@ -1,4 +1,4 @@
-package jp.satoshun.rxreceiver.sample;
+package com.github.satoshun.rxreceiver.sample;
 
 import android.support.v7.app.AppCompatActivity;
 import android.app.Activity;

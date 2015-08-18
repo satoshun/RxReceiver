@@ -1,5 +1,4 @@
-package jp.satoshun.rxreceiver;
-
+package com.github.satoshun.rxreceiver;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +8,6 @@ import android.support.annotation.CheckResult;
 import rx.Observable;
 
 public class RxReceiver {
-
     @CheckResult
     public static Observable<Intent> registerBroadcastReceiver(Context context, String action) {
         return registerBroadcastReceiver(context, new IntentFilter(action));

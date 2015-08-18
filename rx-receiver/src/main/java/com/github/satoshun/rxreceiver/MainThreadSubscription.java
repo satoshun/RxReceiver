@@ -1,4 +1,4 @@
-package jp.satoshun.rxreceiver;
+package com.github.satoshun.rxreceiver;
 
 import android.os.Handler;
 import android.os.Looper;
