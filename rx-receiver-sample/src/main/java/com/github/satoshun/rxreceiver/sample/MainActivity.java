@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.satoshun.rxreceiver.RxReceiver;
+
 import rx.Subscription;
 import rx.functions.Action1;
 
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
 
         // Broadcast receiver sample
-        receiverSubscription = com.github.satoshun.rxreceiver.RxReceiver.registerBroadcastReceiver(this, new IntentFilter("hogehoge"))
+        receiverSubscription = RxReceiver.registerBroadcastReceiver(this, new IntentFilter("hogehoge"))
                 .subscribe(new Action1<Intent>() {
                     @Override
                     public void call(Intent intent) {
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity
         }, 3000);
 
         // Local Broadcast receiver sample
-        localReceiverSubscription = com.github.satoshun.rxreceiver.RxReceiver.registerLocalBroadcastReceiver(this, new IntentFilter("hogehoge"))
+        localReceiverSubscription = RxReceiver.registerLocalBroadcastReceiver(this, new IntentFilter("hogehoge"))
             .subscribe(new Action1<Intent>() {
                 @Override
                 public void call(Intent intent) {

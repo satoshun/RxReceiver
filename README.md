@@ -7,6 +7,14 @@ RxJava binding APIs for Android Broadcast Receiver.
 
 Please see sample project(rx-receiver-sample/).
 
+## Install
+
+Download via Gradle
+
+```groovy
+compile 'com.github.satoshun.rxreceiver:rx-receiver:0.1.0'
+```
+
 
 ## License
 

@@ -13,8 +13,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
 }
@@ -25,6 +24,8 @@ dependencies {
 
     compile 'com.android.support:appcompat-v7:22.2.1'
 
-    compile project(':rx-receiver')
+    debugCompile project(':rx-receiver')
+    releaseCompile 'com.github.satoshun.rxreceiver:rx-receiver:0.1.0'
+
     testCompile 'junit:junit:4.12'
 }

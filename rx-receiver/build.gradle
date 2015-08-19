@@ -1,19 +1,18 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 22
     buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 22
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
     }
     buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        debug {
+            testCoverageEnabled true
         }
     }
 }
@@ -21,7 +20,9 @@ android {
 dependencies {
     compile rootProject.ext.rxJava
     compile rootProject.ext.annotation
-    compile 'com.android.support:support-v4:22.2.1'
+    compile rootProject.ext.support
 
     testCompile 'junit:junit:4.12'
 }
+
+apply from: rootProject.file('release.gradle')
